@@ -1,5 +1,26 @@
 import java.util.*;
-
+/*
+QUESTION  - 4
+Given a positive integer n and you can do operations as follow:
+1. If n is even, replace n with n/2.
+2. If n is odd, you can replace n with either n + 1 or n - 1.
+What is the minimum number of replacements needed for n to become 1?
+Example 1:
+Input:
+8
+Output:
+3
+Explanation:
+8 -&gt; 4 -&gt; 2 -&gt; 1
+5.Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num
+calculate the number of 1&#39;s in their binary representation and return them as an array.
+Example 1:
+Input: 2
+Output: [0,1,1]
+• It is very easy to come up with a solution with run time O(n*sizeof(integer)). But can you
+do it in linear time O(n) /possibly in a single pass?
+• Space complexity should be O(n).
+*/
 // the Method minReplacement() is Bruteforce where unnecessary repeatedcalculations occur 
 // the Method minReplacementwithDp() is optimized using storing already calculated values so that repeated trees are pruned away to reduce time taken.
 
