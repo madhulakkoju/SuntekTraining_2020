@@ -58,7 +58,8 @@ class ArrayXor
     return values;
     
   }
-  
+  // Time Complexity : O(arrLength)
+  // Space Complexity : O(arrLength) + O(queryCount)
   public static void main(String args[])
   {  
     Scanner sc = new Scanner(System.in);
