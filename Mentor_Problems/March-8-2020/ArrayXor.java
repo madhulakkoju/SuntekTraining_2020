@@ -28,6 +28,37 @@ class ArrayXor
     // all the values array are stored with respective xor values between indices mentioned
     return values;
   }
+  //TIme Complexity : O(queryCount**2)
+  //Space Complexity : O(queryCount)
+  
+  public Integer[] XorSubArrayOpt( int arrLength, Integer[] array,int queryCount, Integer[][] queries )
+  {
+    
+    Integer[] values  = new Integer[queryCount];
+    // the values array stores the xor valus of tte given queries
+    
+    Integer[] bufferVals = new Integer[arrLength];
+    bufferVals[0] = array[0];
+    for(int iterator = 1;iterator< arrLength;iterator++)
+    {
+      bufferVals[iterator] = bufferVals[iterator -1] ^ array[iterator];
+    }
+    // All the buffer values are stored. 
+    int valueCounter = 0; // index counter of the values array
+    for(int iterator = 0; iterator<queryCount; iterator ++)
+    {
+      int xorValue = 0; // initial XOR value taken 0 because 0 ^ f = f 
+       xorValue = xorValue ^ bufferVals[queries[iterator][1]];
+      if(queries[iterator][0] > 0)  
+        xorValue = xorValue ^ bufferVals[queries[iterator][0] - 1];
+
+      values[valueCounter ++] = xorValue;
+    }
+    // all the values array are stored with respective xor values between indices mentioned
+    return values;
+    
+  }
+  
   public static void main(String args[])
   {  
     Scanner sc = new Scanner(System.in);
@@ -65,8 +96,8 @@ class ArrayXor
       }
       // Queries data is aso taken as input as in input format.
       
-      System.out.println( Arrays.toString( obj.XorSubArray(arrLength,array,queryCount,queries) ) ); // printing the output array 
-      
+      System.out.println( " Regulat : "+ Arrays.toString( obj.XorSubArray(arrLength,array,queryCount,queries) ) ); // printing the output array 
+      System.out.println( " Optimized : " + Arrays.toString( obj.XorSubArrayOpt(arrLength,array,queryCount,queries) ) ); // printing the output array 
     }
     
   }
@@ -85,7 +116,12 @@ Input Format ::
 0 3
 3 3  // all queries taken
 //-------------------
-Output : [2, 7, 14, 8]
+Output :
+ Regulat : [2, 7, 14, 8]
+ Optimized : [2, 7, 14, 8]
+
+
+
 // Test Cases for Execution
 
 
