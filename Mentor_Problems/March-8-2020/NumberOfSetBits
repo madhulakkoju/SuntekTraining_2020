@@ -1,0 +1,127 @@
+import java.util.*;
+/*
+5.Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num
+calculate the number of 1&#39;s in their binary representation and return them as an array.
+Example 1:
+Input: 2
+Output: [0,1,1]
+• It is very easy to come up with a solution with run time O(n*sizeof(integer)). But can you
+do it in linear time O(n) /possibly in a single pass?
+• Space complexity should be O(n).
+*/
+ class NumberOfSetBits
+ { 
+   public static Integer[] countSetBitsGeneral(int number)
+   {
+     if(number < 0)
+       return new Integer[0];
+     Integer[] arr = new Integer[number + 1];
+     for(int i =0;i<= number;i++)
+     {
+       arr[i] = ( (Integer.toBinaryString(i)).replaceAll("0","") ).length()  ;
+     }
+     return arr;
+   }
+   public static Integer[] countSetBitsGray(int number)
+   {
+     if(number <0)
+       return new Integer[0];
+     // This approach is a kind of way which uses gray code for binary number representation .
+     // A simailar pttern is repeated always by complementing the previouslu occured binary number.
+     /*   
+     // USing array
+     int[] arr = new int[n+1];
+     int curBitCount=0;
+     int previousBitRef=0;
+     for(int i=1;i<(n+1);i++) // Looping on the aarray indices.
+     {
+
+      arr[i] = curBitCount - arr[previousBitRef];
+      previousBitRef --;  
+             if(previousBitRef <= 0)
+       {
+         previousBitRef = i;
+         curBitCount ++;
+       }
+          
+     } 
+     return arr;
+     */
+     // Using Array List. 
+     ArrayList<Integer> countSetArr = new ArrayList<Integer>(number+2);
+     countSetArr.add(0); // Adding 0 to refer to it in next iterations
+     int curBitCount=0; // this represents currently considering bits count
+     int previousBitRef=0;  // this represents the previous index which used to generate the current pattern. 
+     for(int i=1;i<(number+1);i++) // Looping on the aarray indices. // i is iterator
+     {
+      countSetArr.add( curBitCount - countSetArr.get(previousBitRef)); // add pattern to list
+      previousBitRef --;  // move the reference index backward towards 0
+       if(previousBitRef <= 0)
+       {
+         previousBitRef = i;
+         curBitCount ++;
+       }
+     } 
+     if(number != 0)
+     countSetArr.remove(0); // removing the forst index to mask the explicitly added 0
+     return countSetArr.toArray(new Integer[countSetArr.size()]); // Using toArray method to convert the ArrayList to Object[] array  
+   }
+   // TIme Complexity : O(n)
+   // Space Complexity: O(n)
+   public static void main(String args[])
+   { 
+     Scanner sc = new Scanner(System.in);
+        int testCaseCount = Integer.parseInt(sc.nextLine());
+       while(testCaseCount>0)
+       {
+         testCaseCount -- ;
+         int number = Integer.parseInt(sc.nextLine());
+         System.out.println(" General Soln : " + Arrays.toString(countSetBitsGeneral(number)) + "\n GrayCode Soln : "+ Arrays.toString(countSetBitsGray(number))+"\n" );
+       }
+   }
+ }
+/*
+InputFormat 
+2 // test case coutn
+4   // number
+5   // number
+
+Input :
+
+7
+0
+9
+6
+13
+-3
+66
+87
+
+
+Output :
+
+ General Soln : [0]
+ GrayCode Soln : [0]
+
+ General Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2]
+ GrayCode Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1]
+
+ General Soln : [0, 1, 1, 2, 1, 2, 2]
+ GrayCode Soln : [0, 1, 1, 2, 1, 2]
+
+ General Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3]
+ GrayCode Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2]
+
+ General Soln : []
+ GrayCode Soln : []
+
+ General Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2]
+ GrayCode Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2]
+
+ General Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5]
+ GrayCode Soln : [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4]
+
+
+
+
+*/
