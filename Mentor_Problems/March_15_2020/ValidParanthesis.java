@@ -70,7 +70,7 @@ class ValidParanthesis
       testcase --;
       int n = Integer.parseInt(sc.nextLine());
       System.out.println("--->>>>" + n );
-      generateParanthesis( n ,"" );
+      generateParanthesis( 2*n ,"" );
       System.out.println("---------------------");
     }
     
